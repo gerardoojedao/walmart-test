@@ -1,0 +1,9 @@
+.git/
+**/node_modules/
+.vscode/
+build/
+.idea/
+keys/.env.dev
+keys/.env.test
+keys/.env.stage
+keys/.env.prod

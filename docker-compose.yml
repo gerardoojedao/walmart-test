@@ -1,0 +1,29 @@
+version: "3"
+services:
+  database:
+    image: mongo:3.6.8
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=productListUser
+      - MONGO_INITDB_ROOT_PASSWORD=productListPassword
+    ports:
+      - "27017:27017"
+  mongoseed:
+    image: mongo:3.6.8
+    depends_on:
+      - database
+    working_dir: /database
+    command: ./import.sh database
+    volumes:
+      - ./database:/database
+  web:
+    build:
+        context: .
+    env_file:
+        - ./server/keys/.env
+    environment:
+        - MONGO_URL=mongodb://productListUser:productListPassword@database:27017/admin
+        - MONGO_DB=promotions
+        - PORT=3000
+    ports:
+      - "3000:3000"
+
